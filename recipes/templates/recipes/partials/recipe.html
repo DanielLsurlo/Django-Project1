@@ -3,43 +3,43 @@
         <img src="https://placehold.co/1280x640/2086c2/FFF" alt="temporary">
     </div>
     <div class="recipe-title-container">
-        <h2 class="recipe-title">Lorem ipsum dolor sit amet.</h2>
+        <h2 class="recipe-title">{{ recipe.title }}</h2>
     </div>
 
     <div class="recipe-author">
         <span class="recipe-author-item">
             <i class="fas fa-user"></i>
-            Usuario
+            {{ recipe.author.first_name }} {{ recipe.author.last_name }}
         </span>
         <span class="recipe-author-item">
             <i class="fas fa-calendar-alt"></i>
-            22/03/2023 ás 11:11
+            {{ recipe.created_at|date:"d/m/Y" }} às 
+            {{recipe.created_at|date:"H:i"}}
         </span>
         <span class="recipe-author-item">
             <a href="/recipe/category/breakfast">
                 <i class="fas fa-layer-group"></i>
-                <span>Breakfast</span>
+                <span>{{ recipe.category.name }}</span>
             </a>
         </span>
     </div>
 
     <div class="recipe-content">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus excepturi sit quam suscipit,
-            repellat accusamus cupiditate. Dolore quas officiis hic, quidem veniam quos possimus magnam,
-            illum sapiente cumque pariatur soluta.</p>
+        <p>{{ recipe.description }}</p>
     </div>
 
     <div class="recipe-meta-container">
         <div class="recipe-meta recipe-preparation">
             <h3 class="recipe-meta-title"><i class="fas fa-stopwatch"></i> Preparo</h3>
             <div class="recipe-meta-text">
-                0 Minutos
+                {{ recipe.prepararion_time }} {{ recipe.prepararion_time_unit }}
+
             </div>
         </div>
         <div class="recipe-meta recipe-servings">
             <h3 class="recipe-meta-title"><i class="fas fa-pizza-slice"></i> Porções</h3>
             <div class="recipe-meta-text">
-                0 Porções
+                {{ recipe.servings }} {{ recipe.servings_unit }}
             </div>
         </div>
     </div>
