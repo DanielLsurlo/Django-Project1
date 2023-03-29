@@ -1,5 +1,5 @@
-from django.shortcuts import (get_list_or_404,  # type: ignore
-                              get_object_or_404, render)
+from django.shortcuts import get_list_or_404  # type: ignore
+from django.shortcuts import get_object_or_404, render
 
 from recipes.models import Recipe
 
