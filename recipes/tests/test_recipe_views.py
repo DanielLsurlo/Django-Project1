@@ -2,6 +2,7 @@ from django.test import TestCase  # type: ignore
 from django.urls import resolve, reverse  # type: ignore
 
 from recipes import views
+from recipes.models import Category, Recipe, User
 
 
 class RecipeViewsTest(TestCase):
@@ -24,6 +25,40 @@ class RecipeViewsTest(TestCase):
             'No recipes found here.',
             response.content.decode('utf-8')
         )
+
+    def test_recipe_home_template_loads_recipes(self):
+        category = Category.objects.create(name='Category')
+        author = User.objects.create_user(
+            first_name='user',
+            last_name='name',
+            username='username',
+            password='123456',
+            email='username@email.com',
+        )
+        recipe = Recipe.objects.create(
+            category=category,
+            author=author,
+            title='Recipe title',
+            description='Recipe Description',
+            slug='recipe-slug',
+            preparation_time=10,
+            preparation_time_unit='Minutos',
+            servings=5,
+            servings_unit='Porções',
+            preparation_step='Recipe Preparation Steps',
+            preparation_step_is_html=False,
+            is_published=True,
+        )
+        response = self.client.get(reverse('recipes:home'))
+        content = response.content.decode('utf-8')
+        response_context_recipes = response.context['recipes']
+
+        self.assertIn('Recipe title', content)
+        self.assertIn('10 Minutos', content)
+        self.assertIn('5 Porções', content)
+        self.assertEqual(len(response_context_recipes), 1)
+
+        pass
 
     def test_recipe_category_views_function_is_correct(self):
         view = resolve(
