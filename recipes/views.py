@@ -1,3 +1,4 @@
+from django.http.response import Http404  # type: ignore
 from django.shortcuts import get_list_or_404  # type: ignore
 from django.shortcuts import get_object_or_404, render
 
@@ -38,4 +39,9 @@ def recipe(request, id):
 
 
 def search(request):
+    search_term = request.GET.get('q')
+
+    if not search_term:
+        raise Http404()
+
     return render(request, 'recipes/pages/search.html')
