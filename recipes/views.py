@@ -1,3 +1,4 @@
+from django.db.models import Q  # type: ignore
 from django.http.response import Http404  # type: ignore
 from django.shortcuts import get_list_or_404  # type: ignore
 from django.shortcuts import get_object_or_404, render
@@ -44,6 +45,19 @@ def search(request):
     if not search_term:
         raise Http404()
 
+    # Making complex lookups with objects Q:
+    # https://docs.djangoproject.com/pt-br/3.2/topics/db/queries/#complex-lookups-with-q-objects
+    recipes = Recipe.objects.filter(
+        Q(
+            Q(title__icontains=search_term) | Q(
+                description__icontains=search_term),
+        )
+    )
+    recipes = recipes.filter(is_published=True)
+    recipes = recipes.order_by('-id')
+
     return render(request, 'recipes/pages/search.html', {
         'page_title': f'Search for "{search_term}" |',
+        'search_term': search_term,
+        'recipes': recipes,
     })
