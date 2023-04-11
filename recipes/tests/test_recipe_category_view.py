@@ -2,7 +2,7 @@ from django.urls import resolve, reverse  # type: ignore
 
 from recipes import views
 
-from .test_recipe_base import RecipeTestBase
+from .test_recipe_base import Recipe, RecipeTestBase
 
 
 class RecipeCategoryViewTest(RecipeTestBase):
@@ -37,3 +37,17 @@ class RecipeCategoryViewTest(RecipeTestBase):
             'recipes:recipe', kwargs={'id': recipe.category.id}))
 
         self.assertEqual(response.status_code, 404)
+
+    def test_recipe_category_is_paginated(self):
+        for i in range(18):
+            kwargs = {'author_data': {'username': f'u{i}'},
+                      'slug': f'r{i}', }
+            self.make_recipe(**kwargs)
+
+        response = self.client.get(
+            reverse('recipes:category',
+                    kwargs={'category_id': 1}))
+        recipes = response.context['recipes']
+        paginator = recipes.paginator
+
+        self.assertEqual(paginator.num_pages, 1)
