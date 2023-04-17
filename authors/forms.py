@@ -36,6 +36,9 @@ class RegisterForm(forms.ModelForm):
         required=True,
         widget=forms.PasswordInput(),
         label='Confirm password:',
+        error_messages={
+            'required': 'Repeat the password.'
+        },
     )
 
     password = forms.CharField(
@@ -59,7 +62,38 @@ class RegisterForm(forms.ModelForm):
         help_text=(
             'The e-mail must be valid'
         ),
-        label='E-mail:'
+        label='E-mail:',
+        error_messages={
+            'required': 'This field is required'
+        },
+    )
+
+    first_name = forms.CharField(
+        error_messages={'required': 'Write your first name.'},
+        required=True,
+        label='First name:',
+    )
+
+    last_name = forms.CharField(
+        error_messages={'required': 'Write your last name.'},
+        required=True,
+        label='Last name:',
+    )
+
+    username = forms.CharField(
+        label='Username:',
+        error_messages={
+            'required': 'This field must not be empty',
+            'min_length': 'Username must have between 4 and 150 chars.',
+            'max_length': 'Username must have between 4 and 150 chars.',
+        },
+        required=True,
+        help_text=(
+            'Username must have letters, numbers or special characters.'
+            'The length should be between 4 and 150 characters.'
+        ),
+        min_length=4,
+        max_length=150,
     )
 
     class Meta:
@@ -71,17 +105,6 @@ class RegisterForm(forms.ModelForm):
             'email',
             'password',
         ]
-
-        labels = {
-            'username': 'Username:',
-            'first_name': 'First name:',
-            'last_name': 'Last name:',
-        }
-        error_messages = {
-            'username': {
-                'required': 'This field does not be empty',
-            }
-        }
 
     def clean(self):
         cleaned_data = super().clean()
