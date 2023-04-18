@@ -376,6 +376,20 @@ h6 {
     background: var(--color-primary-dark-hover);
 }
 
+.plaintext-button {
+    display: inline;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--color-primary-dark);
+    font-size: 1.6rem;
+}
+
+.inline-form{
+    display: inline;
+
+}
+
 
 
 /* messagens */
