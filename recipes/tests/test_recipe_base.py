@@ -3,6 +3,10 @@ from django.test import TestCase  # type: ignore
 from recipes.models import Category, Recipe, User
 
 
+class RecipeMixin:
+    ...
+
+
 class RecipeTestBase(TestCase):
     def setUp(self) -> None:
         return super().setUp()
