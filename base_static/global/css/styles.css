@@ -299,6 +299,10 @@ h6 {
     text-align: center;
 }
 
+.left {
+    text-align: left;
+}
+
 .m-y {
     margin: var(--spacing-gutter-medium) 0;
 }
@@ -388,6 +392,10 @@ h6 {
 .inline-form{
     display: inline;
 
+}
+
+.span-2 {
+    grid-column: span 2;
 }
 
 /*authors */

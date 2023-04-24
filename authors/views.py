@@ -7,6 +7,7 @@ from django.http import Http404  # type: ignore
 from django.shortcuts import redirect, render  # type: ignore
 from django.urls import reverse  # type: ignore
 
+from authors.forms.recipe_form import AuthorRecipeForm
 from recipes.models import Recipe
 from utils.pagination import make_pagination
 
@@ -114,13 +115,19 @@ def dashboard_recipe_edit(request, id):
         is_published=False,
         author=request.user,
         pk=id,
-    )
+    ).first()
 
     if not recipe:
         raise Http404()
 
-    return render(request, 'authors/pages/dashboard_recipe.html',
-                  {
-                      'recipes': recipe,
+    form = AuthorRecipeForm(
+        request.POST or None,
+        instance=recipe
+    )
+
+    return render(request,
+                  'authors/pages/dashboard_recipe.html',
+                  context={
+                      'form': form,
                   }
                   )
