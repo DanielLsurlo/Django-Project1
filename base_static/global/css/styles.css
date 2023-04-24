@@ -390,7 +390,11 @@ h6 {
 
 }
 
+/*authors */
 
+.login-message {
+    margin: 1rem 0;
+}
 
 /* messagens */
 

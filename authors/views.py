@@ -49,7 +49,7 @@ def login_create(request):
     if not request.POST:
         raise Http404()
     form = LoginForm(request.POST)
-    login_url = reverse('authors:login')
+    login_url = reverse('authors:dashboard')
 
     if form.is_valid():
         authenticate_user = authenticate(
