@@ -5,6 +5,8 @@ from django.http import Http404  # type: ignore
 from django.shortcuts import redirect, render  # type: ignore
 from django.urls import reverse  # type: ignore
 
+from recipes.models import Recipe
+
 from .forms import LoginForm, RegisterForm
 
 
@@ -86,4 +88,12 @@ def logout_view(request):
 
 @login_required(login_url='authors:login', redirect_field_name='next')
 def dashboard(request):
-    return render(request, 'authors/pages/dashboard.html')
+    recipes = Recipe.objects.filter(
+        is_published=False,
+        author=request.user
+    )
+    return render(request, 'authors/pages/dashboard.html',
+                  {
+                      'recipes': recipes,
+                  }
+                  )
