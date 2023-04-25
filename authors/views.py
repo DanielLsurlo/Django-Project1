@@ -144,3 +144,30 @@ def dashboard_recipe_edit(request, id):
                       'form': form,
                   }
                   )
+
+
+@login_required(login_url='authors:login', redirect_field_name='next')
+def dashboard_recipe_new(request):
+    form = AuthorRecipeForm(
+        data=request.POST or None,
+        files=request.FILES or None
+    )
+
+    if form.is_valid():
+        recipe = form.save(commit=False)
+
+        recipe.author = request.user
+        recipe.preparation_steps_is_html = False
+        recipe.is_published = False
+
+        recipe.save()
+
+        messages.success(request, 'Sua receita foi Salva com sucesso!')
+        return redirect(reverse('authors:dashboard'))
+
+    return render(request,
+                  'authors/pages/dashboard_recipe.html',
+                  context={
+                      'form': form,
+                  }
+                  )
