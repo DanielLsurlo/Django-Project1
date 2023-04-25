@@ -4,7 +4,7 @@ from django.test import TestCase as DjangoTestCase  # type: ignore
 from django.urls import reverse  # type: ignore
 from parameterized import parameterized  # type: ignore
 
-from authors.forms import RegisterForm
+from authors.forms import RegisterForm  # type: ignore
 
 
 class AuthorRegisterFormUnitTest(TestCase):
