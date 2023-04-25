@@ -7,10 +7,11 @@ from django.http import Http404  # type: ignore
 from django.shortcuts import redirect, render  # type: ignore
 from django.urls import reverse  # type: ignore
 
+from authors.forms.recipe_form import AuthorRecipeForm  # type: ignore
 from recipes.models import Recipe
 from utils.pagination import make_pagination
 
-from .forms import AuthorRecipeForm, LoginForm, RegisterForm  # type: ignore
+from .forms import LoginForm, RegisterForm  # type: ignore
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 6))
 
