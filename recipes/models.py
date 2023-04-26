@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User  # type: ignore
 from django.db import models  # type: ignore
+from django.urls import reverse  # type: ignore
 
 
 class Category(models.Model):
@@ -32,3 +33,8 @@ class Recipe(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+    # Get the recipe url, it can be used on a template instead of:
+    # {% url 'recipes:recipe' recipe.id %}
+    def get_absolute_url(self):
+        return reverse('recipes:recipe', args=(self.id,))
