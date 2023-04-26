@@ -409,6 +409,14 @@ a {
     grid-column: span 2;
 }
 
+.plaintex-button {
+    cursor: pointer;
+    background-color: var(--color-gray-4);
+    color: red;
+    border-radius: 5%;
+    padding: 2px;
+}
+
 /*authors */
 
 .login-message {
