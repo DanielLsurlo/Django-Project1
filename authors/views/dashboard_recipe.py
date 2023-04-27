@@ -1,16 +1,26 @@
 # type: ignore
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http.response import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views import View
 
 from authors.forms.recipe_form import AuthorRecipeForm
 from recipes.models import Recipe
 
 
+@method_decorator(
+    login_required(login_url="authors:login",
+                   redirect_field_name="next"),
+    name="dispatch"
+)
 class DashboardRecipe(View):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
     def get_recipe(self, id=None):
         recipe = None
         if id is not None:
@@ -39,6 +49,7 @@ class DashboardRecipe(View):
         form = AuthorRecipeForm(instance=recipe)
         return self.render_recipe(form)
 
+    # Is used to make a new recipe or edit.
     def post(self, request, id=None):
         recipe = self.get_recipe(id)
         form = AuthorRecipeForm(
@@ -47,6 +58,7 @@ class DashboardRecipe(View):
             instance=recipe
         )
 
+        # Verify if form is valid
         if form.is_valid():
             recipe = form.save(commit=False)
 
