@@ -3,6 +3,7 @@ from unittest.mock import patch
 from django.urls import resolve, reverse  # type: ignore
 
 from recipes import views
+from utils.pagination import make_pagination_range
 
 from .test_recipe_base import RecipeTestBase
 
@@ -68,6 +69,15 @@ class RecipeHomeViewTest(RecipeTestBase):
             self.assertEqual(len(paginator.get_page(1)), 3)
             self.assertEqual(len(paginator.get_page(2)), 3)
             self.assertEqual(len(paginator.get_page(3)), 3)
+
+    def test_make_pagination_range_is_static_if_range_less_or_igual_4(self):
+        pagination = make_pagination_range(
+            page_range=list(range(1, 4)),
+            qty_pages=4,
+            current_page=1,
+        )['pagination']
+
+        self.assertEqual([1, 2, 3], pagination)
 
     def test_invalid_page_query_uses_page_one(self):
 
