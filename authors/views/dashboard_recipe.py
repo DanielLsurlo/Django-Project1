@@ -11,17 +11,17 @@ from recipes.models import Recipe
 
 
 class DashboardRecipe(View):
-    def get_recipe(self, id):
+    def get_recipe(self, id=None):
         recipe = None
-        if id:
+        if id is not None:
             recipe = Recipe.objects.filter(
                 is_published=False,
                 author=self.request.user,
                 pk=id,
             ).first()
 
-        if not recipe:
-            raise Http404()
+            if not recipe:
+                raise Http404()
         return recipe
 
     def render_recipe(self, form):
@@ -34,14 +34,13 @@ class DashboardRecipe(View):
         )
 
     # Show recipe on form
-    def get(self, request, id):
+    def get(self, request, id=None):
         recipe = self.get_recipe(id)
         form = AuthorRecipeForm(instance=recipe)
         return self.render_recipe(form)
 
-    def post(self, request, id):
+    def post(self, request, id=None):
         recipe = self.get_recipe(id)
-
         form = AuthorRecipeForm(
             data=request.POST or None,
             files=request.FILES or None,
@@ -59,7 +58,10 @@ class DashboardRecipe(View):
 
             messages.success(request, 'Sua receita foi Salva com sucesso!')
             return redirect(
-                reverse('authors:dashboard_recipe_edit', args=(id, ))
+                reverse(
+                    'authors:dashboard_recipe_edit',
+                    args=(recipe.id, )
+                )
             )
 
         return self.render_recipe(form)
