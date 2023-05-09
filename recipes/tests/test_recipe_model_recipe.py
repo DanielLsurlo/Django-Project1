@@ -64,3 +64,23 @@ class RecipeModelTest(RecipeTestBase):
         self.assertEqual(str(self.recipe), needed,
                          msg='Recipe string representation must be'
                          f' "{needed}" but "{str(self.recipe)}" was received')
+
+    def test_recipe_with_no_slug_generate_a_slug(self):
+        recipe = Recipe(
+            category=self.make_category(name='Test Default Category'),
+            author=self.make_author(username='newuser'),
+            title='Recipe title',
+            description='Recipe Description',
+            preparation_time=10,
+            preparation_time_unit='Minutos',
+            servings=5,
+            servings_unit='Porções',
+            preparation_step='Recipe Preparation Steps',
+        )
+
+        recipe.save()
+
+        self.assertEqual(
+            str(recipe.slug),
+            'recipe-title'
+        )
